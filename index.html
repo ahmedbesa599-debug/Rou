@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090609">
+<title>BESA — RODY | Our Little Universe</title>
+<style>
+:root{--pink:#ff4d91;--rose:#ff9dbf;--gold:#d9b58c;--glass:rgba(25,15,24,.78)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#090609;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+button{cursor:pointer}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:-2}
+.ambient{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 20%,#47152b55,transparent 60%),linear-gradient(180deg,#080609dd,#10081099)}
+.wrap{max-width:900px;width:calc(100% - 30px);margin:auto}
+header{text-align:center;padding:95px 0 28px}
+.pill{display:inline-flex;gap:13px;align-items:center;border:1px solid #ffffff25;background:#ffffff09;backdrop-filter:blur(20px);border-radius:50px;padding:12px 18px;margin-bottom:38px}
+.time{text-align:center;min-width:45px}
+.time b{display:block;font-size:18px;font-weight:600}
+.time small{display:block;color:#c5a9b7;font-size:9px;letter-spacing:1px;margin-top:4px}
+h1{direction:ltr;font-size:clamp(30px,7vw,61px);font-weight:300;letter-spacing:clamp(4px,1.6vw,12px);color:#ffe7ef;text-shadow:0 0 28px #ff4d9180}
+.subtitle{letter-spacing:5px;font-size:10px;color:#c4a8b6;margin-top:12px;direction:ltr}
+.introline{width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--pink),transparent);margin:24px auto}
+.section{margin:20px 0 30px}
+.glass{background:linear-gradient(135deg,#ffffff0d,#ff4d9108);border:1px solid #ffffff20;border-radius:23px;padding:24px;backdrop-filter:blur(22px);box-shadow:0 20px 60px #0005,inset 0 1px #ffffff0c}
+.center{text-align:center}
+h2{font-size:21px;font-weight:650;margin-bottom:10px}
+p{line-height:1.95;color:#e1cbd6;font-size:14px}
+.muted{color:#bba5b2;font-size:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #ff9cbd66;border-radius:15px;padding:13px 19px;color:#fff;background:linear-gradient(135deg,#e92d75,#a71950);box-shadow:0 7px 28px #ed2e7430;transition:transform .25s,filter .25s}
+.btn:hover{filter:brightness(1.15);transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.btn.secondary{background:#ffffff09;box-shadow:none}
+.full{width:100%;margin-top:16px}
+.heroCard{max-width:600px;margin:auto}
+.eyebrow{font-size:10px;letter-spacing:3px;color:#eaa7c1;direction:ltr;margin-bottom:12px}
+.giftScene{position:relative;min-height:270px;display:grid;place-items:center;overflow:hidden;margin:10px 0}
+.giftScene:before{content:"";position:absolute;width:220px;height:150px;border-radius:50%;background:#ff398b2b;filter:blur(50px)}
+.gift{position:relative;width:160px;height:125px;filter:drop-shadow(0 12px 22px #ff438e40);transition:transform .6s}
+.gift:hover{transform:translateY(-6px) rotate(-2deg)}
+.giftLid{position:absolute;width:174px;height:32px;left:-7px;top:15px;background:linear-gradient(140deg,#ffbdd2,#a72858 45%,#f37fa9);border-radius:5px;box-shadow:inset 0 2px 3px #fff9}
+.giftBody{position:absolute;top:43px;width:160px;height:85px;border-radius:2px 2px 9px 9px;background:linear-gradient(100deg,#36101f,#8c214a 45%,#280d1b);border:1px solid #ff9dbf88;box-shadow:inset 0 0 20px #0008}
+.ribbon{position:absolute;top:15px;left:67px;width:26px;height:113px;background:linear-gradient(90deg,#9d244c,#ffd0df 48%,#d64276);z-index:2}
+.bow{position:absolute;top:-9px;left:48px;width:36px;height:26px;border:7px solid #fbb6ce;border-radius:90% 10% 90% 10%;transform:rotate(25deg);z-index:3;box-shadow:0 0 10px #ff7eb0}
+.bow:after{content:"";position:absolute;left:18px;top:-7px;width:35px;height:25px;border:7px solid #e96d9b;border-radius:10% 90% 10% 90%;transform:rotate(30deg)}
+.giftHint{position:absolute;bottom:8px;color:#d9b3c4;font-size:12px}
+#giftMessage{display:none;animation:appear .7s ease both}
+#giftMessage.open{display:block}
+.bigEmoji{font-size:75px;display:block;margin:10px auto 15px;filter:drop-shadow(0 0 22px #ff559b66);animation:pop .7s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{0%{transform:scale(.2) rotate(-25deg);opacity:0}70%{transform:scale(1.18)}100%{transform:scale(1);opacity:1}}
+@keyframes appear{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+.promise{border-color:#e3b98b44;background:linear-gradient(140deg,#241a1b,#120c12)}
+.promiseText{white-space:pre-line;line-height:2.15;font-size:15px;color:#f4dfe8}
+.promiseSign{color:#ff9dbf;font-weight:650;margin-top:18px}
+/* Love game */
+.gameArea{position:relative;min-height:340px;overflow:hidden;border:1px solid #ff8db933;border-radius:20px;background:radial-gradient(ellipse at center,#45152d66,#0d080e 75%);margin-top:18px}
+.gameTop{display:flex;justify-content:space-between;align-items:center;padding:15px;gap:10px}
+.score{color:#ffb2cf;font-weight:700}
+#playfield{position:absolute;inset:55px 0 0;overflow:hidden}
+.heartTarget{position:absolute;border:0;background:none;font-size:30px;filter:drop-shadow(0 0 8px #ff4d9180);animation:heartFloat 2.8s ease-in-out infinite alternate;transition:transform .15s}
+.heartTarget:active{transform:scale(.5)}
+@keyframes heartFloat{from{translate:0 0}to{translate:5px -12px}}
+#win{display:none;position:absolute;inset:0;background:#100811f2;place-content:center;text-align:center;padding:20px;z-index:3}
+#win.show{display:grid;animation:appear .6s ease}
+#winText{font-size:clamp(25px,6vw,40px);font-weight:700;color:#ff9bc3;text-shadow:0 0 30px #ff2f84;line-height:1.8}
+.confetti{position:absolute;pointer-events:none;z-index:5;font-size:23px;animation:fly 1.7s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(450deg) scale(.5);opacity:0}}
+/* Poll */
+.poll{margin-top:16px}
+.pollQuestion{padding:19px 0;border-bottom:1px solid #ffffff12}
+.pollQuestion:last-child{border-bottom:0}
+.qtitle{font-size:15px;line-height:1.8;font-weight:600;margin-bottom:13px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{border:1px solid #ffffff20;background:#ffffff06;color:#f7eaf0;border-radius:13px;padding:12px 8px;transition:.2s}
+.choice.selected{border-color:#ff70aa;background:#ff398b22;box-shadow:inset 0 0 18px #ff398b12}
+.result{display:none;margin-top:12px}
+.result.show{display:block;animation:appear .4s ease}
+.bar{height:6px;border-radius:10px;background:#ffffff12;overflow:hidden;margin:8px 0}
+.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#b72a62,#ff9dbf);transition:width .5s}
+.reasonList{display:grid;gap:9px}
+.reason{display:flex;gap:12px;align-items:flex-start;border:1px solid #ffffff12;background:#ffffff05;border-radius:13px;padding:13px}
+.reasonNum{font-size:11px;color:#ff88b6;min-width:30px;padding-top:3px}
+.reasonText{font-size:14px;line-height:1.8;flex:1}
+footer{text-align:center;padding:30px 0 60px;color:#a98b9b;font-size:11px;letter-spacing:2px;direction:ltr}
+@media(min-width:700px){.twoCol{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
+@media(max-width:420px){.glass{padding:18px}.pill{gap:8px;padding:10px 12px}.time{min-width:39px}.time b{font-size:16px}.giftScene{min-height:245px}.choices{gap:7px}.choice{font-size:13px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas><div class="ambient"></div>
+<main class="wrap">
+<header>
+  <div class="pill" id="counter">
+    <div class="time"><b id="days">0</b><small>DAYS</small></div>
+    <span>·</span><div class="time"><b id="hours">00</b><small>HOURS</small></div>
+    <span>·</span><div class="time"><b id="mins">00</b><small>MINS</small></div>
+    <span>·</span><div class="time"><b id="secs">00</b><small>SECS</small></div>
+  </div>
+  <h1>BESA — RODY</h1>
+  <div class="subtitle">OUR LITTLE UNIVERSE</div>
+  <div class="introline"></div>
+  <p>تفاصيل صغيرة.. ومشاعر كبيرة 🤍</p>
+</header>
+
+<section class="section glass center heroCard">
+  <div class="eyebrow">A LITTLE NOTE FROM MY HEART</div>
+  <h2>حبيتك ليه يا رودي؟ 👸🏻</h2>
+  <p>100 سبب يخلوني أقدّرك وأفرح بوجودك في حياتي كل يوم أكتر.</p>
+  <button class="btn full" onclick="document.getElementById('reasonsSection').scrollIntoView({behavior:'smooth'})">افتحي قلبي وشوفي 💗</button>
+</section>
+
+<section class="section glass center" id="giftSection">
+  <div class="eyebrow">A GIFT MADE FOR YOU</div>
+  <h2>هديتك يا رودي 🎁</h2>
+  <p>في هدية صغيرة مستنياكي.. دوسي عليها وشوفي المفاجأة.</p>
+  <button class="giftScene" id="giftButton" aria-label="افتحي الهدية" style="width:100%;border:0;background:transparent;color:white">
+    <span class="gift">
+      <span class="giftLid"></span><span class="giftBody"></span>
+      <span class="ribbon"></span><span class="bow"></span>
+    </span>
+    <span class="giftHint">اضغطي هنا لفتح الهدية ✨</span>
+  </button>
+  <div id="giftMessage">
+    <span class="bigEmoji">😍</span>
+    <h2>يا أجمل هدية في حياتي 💗</h2>
+    <p>يا رودي، يمكن دي مجرد هدية صغيرة على شاشة، بس جواها كلام كتير من قلبي ليكي.</p>
+    <p>بحب ضحكتك وتفاصيلك، وبحب إننا نقدر نتكلم ونفهم بعض ونشجع بعض. نفسي أشوفك دايمًا مبسوطة، وأكون سبب في ضحكتك مش زعلك.</p>
+    <p>أتمنى نفضل نتعامل مع بعض بحنية واحترام، ونساعد بعض نكبر ونحقق أحلامنا ونقرب من ربنا.</p>
+    <p class="promiseSign">من بيسا لرودي، بكل الحب 🤍</p>
+    <button class="btn secondary full" onclick="replayGift()">إعادة فتح الهدية ↻</button>
+  </div>
+</section>
+
+<section class="section glass promise">
+  <div class="eyebrow">MY PROMISE TO YOU</div>
+  <h2>وعد مني ليكي يا رودي 🤍</h2>
+  <div class="introline" style="margin:16px 0"></div>
+  <div class="promiseText">يا رودي، بوعدك إني أفضّل أحاول أكون شخص أحسن، وأتعامل معاكي بصدق واهتمام واحترام.
+
+بوعدك إني لما نختلف، أحاول أسمعك وأفهمك بدل ما أستعجل في الحكم، وإن وقت الزعل ما أنساش الكلام الحلو ولا الذكريات الجميلة اللي بينا.
+
+بوعدك إني أقدّر مشاعرك، وما أقللش أبدًا من حاجة مضايقاكي، وإننا لو احتجنا نتكلم نختار الكلام اللي يصلّح مش اللي يجرح.
+
+نفسي نكون سند لبعض، نشجّع بعض في الدراسة، ونفرح بنجاح بعض، ونساعد بعض نقرّب من ربنا ونختار دايمًا الطريق الصح.
+
+وبوعدك إني ما أخليش الكلام مجرد وعود حلوة؛ أحاول أثبت اهتمامي بالأفعال، وأتعلم من أخطائي، وأحافظ على الثقة والاحترام بينا.
+
+نفسي لما نفتكر أيامنا بعد سنين، نكون فخورين إننا كبرنا واتعلمنا وبقينا أنضج وأقوى، وإننا ساعدنا بعض نحقق أحلامنا.
+
+ولو ربنا كتب لنا نكمل حياتنا سوا، أتمنى نكون لبعض راحة وأمان، ونبني بيت مليان رحمة ومودة، ونواجه الدنيا بإيد واحدة.
+
+مش هقدر أوعدك إن كل الأيام هتبقى سهلة، لكن أقدر أوعدك إني أحاول أتعامل مع الصعب بعقل وقلب طيب، وأفتكر دايمًا إنك إنسانة ليكي مشاعر وقيمة تستاهل الاحترام.
+
+<strong>نفسي نفضل مع بعض لآخر نفس فيا لو ربنا كتب لنا النصيب، وتكون أيامنا الجاية أحلى من اللي فاتت. ربنا يكتب لنا الخير ويختار لنا الأحسن دايمًا. 🤍</strong></div>
+  <div class="promiseSign">بحبك يا رودي ❤️ — بيسا</div>
+</section>
+
+<section class="section glass">
+  <div class="eyebrow">A LITTLE LOVE GAME</div>
+  <h2>اجمعي قلوبنا ❤️</h2>
+  <p>اجمعي 10 قلوب بالضغط عليها قبل ما الوقت يخلص، وشوفي المفاجأة اللي مستنياكي!</p>
+  <div class="gameArea">
+    <div class="gameTop">
+      <span class="score">القلوب: <b id="score">0</b>/10</span>
+      <span class="muted">الوقت: <b id="timer">20</b> ثانية</span>
+      <button class="btn secondary" id="startGame">ابدئي اللعب</button>
+    </div>
+    <div id="playfield"></div>
+    <div id="win">
+      <div id="winText">بحبك يا رودي 😍<br><small style="font-size:15px">إنتي ليكي مكانة جميلة في قلبي 🤍</small></div>
+      <button class="btn" onclick="startGame()" style="margin-top:20px">نلعب تاني 💗</button>
+    </div>
+  </div>
+</section>
+
+<section class="section glass">
+  <div class="eyebrow">JUST FOR US</div>
+  <h2>مين فينا؟ 🗳️</h2>
+  <p>اختاري مين شايفة إنه بينطبق عليه السؤال أكتر. التصويت هنا للمرح بينكم، والنتيجة بتظهر على نفس الجهاز.</p>
+  <div id="polls" class="poll"></div>
+  <button class="btn full" onclick="showPollResults()">شوفي نتائج التصويت 💗</button>
+  <div id="allResults" class="result"></div>
+  <button class="btn secondary full" onclick="resetPolls()">إعادة التصويت</button>
+</section>
+
+<section class="section glass" id="reasonsSection">
+  <div class="eyebrow">100 LITTLE REASONS</div>
+  <h2>100 سبب يخلوني أحبك 💗</h2>
+  <p style="margin-bottom:18px">كل سبب تفصيلة جميلة تستاهل تتقال.</p>
+  <div class="reasonList" id="reasonList"></div>
+</section>
+<footer>BESA — RODY · OUR LITTLE UNIVERSE 🤍</footer>
+</main>
+
+<script>
+/* خلفية نجوم خفيفة */
+const canvas=document.getElementById('sky'),ctx=canvas.getContext('2d');
+let stars=[];
+function resize(){
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;
+  canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  stars=Array.from({length:Math.min(110,Math.floor(innerWidth/4))},()=>({
+    x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+    r:Math.random()*1.2+.2,a:Math.random()*.6+.15
+  }));
+}
+resize();addEventListener('resize',resize);
+function draw(){
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+  stars.forEach(s=>{
+    s.a+= (Math.random()-.5)*.025;s.a=Math.max(.1,Math.min(.8,s.a));
+    ctx.globalAlpha=s.a;ctx.fillStyle='#ffc0d8';
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+  });
+  ctx.globalAlpha=1;requestAnimationFrame(draw);
+}
+draw();
+
+/* عداد من التاريخ الموجود في الموقع الأصلي */
+const startDate=new Date('2025-09-01T00:00:00');
+function updateCounter(){
+  let diff=Math.max(0,Date.now()-startDate.getTime());
+  document.getElementById('days').textContent=Math.floor(diff/86400000);
+  document.getElementById('hours').textContent=String(Math.floor(diff/3600000)%24).padStart(2,'0');
+  document.getElementById('mins').textContent=String(Math.floor(diff/60000)%60).padStart(2,'0');
+  document.getElementById('secs').textContent=String(Math.floor(diff/1000)%60).padStart(2,'0');
+}
+updateCounter();setInterval(updateCounter,1000);
+
+/* الهدية */
+const giftButton=document.getElementById('giftButton');
+const giftMessage=document.getElementById('giftMessage');
+giftButton.addEventListener('click',()=>{
+  giftMessage.classList.add('open');
+  giftButton.style.transform='scale(.92)';
+  setTimeout(()=>giftButton.style.transform='',250);
+  giftMessage.scrollIntoView({behavior:'smooth',block:'nearest'});
+  burst(giftButton,16);
+});
+function replayGift(){
+  giftMessage.classList.remove('open');
+  giftButton.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* تأثير القلوب */
+function burst(origin,count){
+  const rect=origin.getBoundingClientRect();
+  for(let i=0;i<count;i++){
+    const el=document.createElement('span');
+    el.className='confetti';
+    el.textContent=['💗','💕','❤️','✨','🤍'][Math.floor(Math.random()*5)];
+    el.style.left=(rect.left+rect.width/2)+'px';
+    el.style.top=(rect.top+rect.height/2)+'px';
+    el.style.setProperty('--dx',(Math.random()-.5)*300+'px');
+    el.style.setProperty('--dy',(-40-Math.random()*230)+'px');
+    document.body.appendChild(el);setTimeout(()=>el.remove(),1900);
+  }
+}
+
+/* لعبة تجميع القلوب */
+let score=0,timeLeft=20,gameTimer=null,spawnTimer=null,running=false;
+const field=document.getElementById('playfield');
+const scoreEl=document.getElementById('score'),timerEl=document.getElementById('timer');
+const win=document.getElementById('win');
+document.getElementById('startGame').addEventListener('click',startGame);
+function startGame(){
+  clearInterval(gameTimer);clearInterval(spawnTimer);
+  score=0;timeLeft=20;running=true;
+  scoreEl.textContent=score;timerEl.textContent=timeLeft;
+  field.innerHTML='';win.classList.remove('show');
+  document.getElementById('startGame').textContent='اللعبة شغالة';
+  spawnHeart();
+  spawnTimer=setInterval(spawnHeart,650);
+  gameTimer=setInterval(()=>{
+    timeLeft--;timerEl.textContent=timeLeft;
+    if(timeLeft<=0)endGame(false);
+  },1000);
+}
+function spawnHeart(){
+  if(!running||score>=10)return;
+  const heart=document.createElement('button');
+  heart.className='heartTarget';heart.type='button';
+  heart.textContent=['❤️','💗','💖','💕'][Math.floor(Math.random()*4)];
+  heart.setAttribute('aria-label','اجمعي القلب');
+  heart.style.left=(4+Math.random()*82)+'%';
+  heart.style.top=(4+Math.random()*72)+'%';
+  heart.addEventListener('click',()=>{
+    if(!running)return;
+    score++;scoreEl.textContent=score;heart.remove();
+    if(score>=10)endGame(true);
+    else spawnHeart();
+  });
+  field.appendChild(heart);
+  if(field.children.length>8)field.firstElementChild.remove();
+}
+function endGame(won){
+  running=false;clearInterval(gameTimer);clearInterval(spawnTimer);
+  if(won){
+    win.classList.add('show');burst(win,25);
+    document.getElementById('startGame').textContent='العبوا تاني';
+  }else{
+    document.getElementById('startGame').textContent='حاولي تاني';
+    const msg=document.createElement('p');
+    msg.style.cssText='text-align:center;padding:10px';
+    msg.textContent='خلص الوقت! جربي تاني واجمعي القلوب العشرة 💗';
+    field.appendChild(msg);
+  }
+}
+window.startGame=startGame;
+
+/* التصويت */
+const questions=[
+'مين اللي بيصالح التاني كل مرة؟',
+'مين اللي بيزعل من أقل حاجة؟',
+'مين اللي بيبدأ الكلام بعد الخناق؟',
+'مين اللي بيقول وحشتني الأول؟',
+'مين اللي بيغير على التاني أكتر؟',
+'مين اللي بيدلع التاني أكتر؟',
+'مين اللي بيضحك التاني وهو زعلان؟',
+'مين اللي بيعتذر الأول؟',
+'مين اللي بيفتكر أصغر تفاصيل التاني؟',
+'مين اللي بيستنى رسالة من التاني؟',
+'مين اللي بيحب المفاجآت أكتر؟',
+'مين اللي بيخطط للمستقبل أكتر؟',
+'مين اللي بيضحك على نكت التاني البايخة؟',
+'مين اللي بيطمن على التاني طول اليوم؟',
+'مين اللي بيعرف إن التاني زعلان من صوته؟',
+'مين اللي بيختار الفيلم أو الأغنية؟',
+'مين اللي بيتكسف أسرع؟',
+'مين اللي بيحكي تفاصيل يومه أكتر؟',
+'مين اللي بيحب الصور والذكريات أكتر؟',
+'مين اللي بيقول أنا مش زعلان وهو زعلان؟',
+'مين اللي بيحب الكلام الحلو أكتر؟',
+'مين اللي بيفتكر المناسبات والتواريخ؟',
+'مين اللي بيهدي التاني وقت التوتر؟',
+'مين اللي بيضحك من غير سبب لما يكلم التاني؟',
+'مين اللي بيحب يعمل مفاجآت بسيطة؟'
+];
+const votes={};
+const pollsEl=document.getElementById('polls');
+questions.forEach((q,i)=>{
+  votes[i]=null;
+  const item=document.createElement('div');item.className='pollQuestion';
+  const title=document.createElement('div');title.className='qtitle';
+  title.textContent=String(i+1).padStart(2,'0')+'. '+q;
+  const choices=document.createElement('div');choices.className='choices';
+  ['بيسا ❤️','رودي 💗'].forEach((name,n)=>{
+    const btn=document.createElement('button');btn.className='choice';btn.textContent=name;
+    btn.addEventListener('click',()=>{
+      votes[i]=n;
+      choices.querySelectorAll('.choice').forEach((b,j)=>b.classList.toggle('selected',j===n));
+      result.classList.remove('show');
+      allResults.classList.remove('show');
+    });
+    choices.appendChild(btn);
+  });
+  const result=document.createElement('div');result.className='result muted';
+  result.textContent='تم اختيار الإجابة';
+  item.append(title,choices,result);pollsEl.appendChild(item);
+});
+const allResults=document.getElementById('allResults');
+function showPollResults(){
+  let answered=0,besa=0,rody=0;
+  questions.forEach((q,i)=>{
+    if(votes[i]===null)return;
+    answered++;
+    if(votes[i]===0)besa++;else rody++;
+  });
+  allResults.innerHTML='';
+  const heading=document.createElement('h2');
+  heading.textContent='نتيجة تصويتكم 💗';
+  const desc=document.createElement('p');
+  desc.textContent=`جاوبتوا على ${answered} من ${questions.length} سؤال.`;
+  allResults.append(heading,desc);
+  [[`اختيارات بيسا (${besa})`,besa], [`اختيارات رودي (${rody})`,rody]].forEach(([label,val])=>{
+    const p=document.createElement('p');p.textContent=label;
+    const bar=document.createElement('div');bar.className='bar';
+    const span=document.createElement('span');
+    span.style.width=(answered?val/answered*100:0)+'%';
+    bar.appendChild(span);allResults.append(p,bar);
+  });
+  allResults.classList.add('show');
+  allResults.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+window.showPollResults=showPollResults;
+function resetPolls(){
+  questions.forEach((q,i)=>{
+    votes[i]=null;
+    const item=pollsEl.children[i];
+    item.querySelectorAll('.choice').forEach(b=>b.classList.remove('selected'));
+    item.querySelector('.result').classList.remove('show');
+  });
+  allResults.classList.remove('show');
+}
+window.resetPolls=resetPolls;
+
+/* قائمة الأسباب */
+const reasons=[
+'لقيت فيكي حاجة مختلفة عن أي حد.',
+'وجودك بيخلّي اليوم أحلى.',
+'ضحكتك ليها مكانة خاصة عندي.',
+'بحب طريقتك في الكلام.',
+'بحب إننا نقدر نضحك سوا.',
+'بتخليني أفكر في نفسي بشكل أحسن.',
+'بتشجعيني لما أحتاج تشجيع.',
+'بتفرحي بالحاجات الصغيرة.',
+'بحب اهتمامك بالتفاصيل.',
+'بحب صراحتك معايا.',
+'بتحاولي تفهميني.',
+'بتسمعيني لما أكون محتاج أتكلم.',
+'بحب طيبتك.',
+'بحب روحك المرحة.',
+'بحب طموحك.',
+'بحب إن ليكي أحلام بتسعي ليها.',
+'بحب كلامك اللي بيطمني.',
+'بحب لما نتبادل أفكارنا.',
+'بحب إننا نتعلم من بعض.',
+'بحب إنك بتفرحي لنجاحي.',
+'بحب لما تحكيلي عن يومك.',
+'بحب ذكرياتنا الحلوة.',
+'بحب إننا نقدر نعتذر ونتفاهم.',
+'بحب إنك بتعبّري عن رأيك.',
+'بحب ذوقك في الحاجات اللي بتحبيها.',
+'بحب اهتمامك بالناس اللي بتحبيهم.',
+'بحب قلبك الطيب.',
+'بحب خفة دمك.',
+'بحب حماسك للحاجات اللي بتفرحك.',
+'بحب كلامنا عن المستقبل.',
+'بحب إنك بتفكريني بالحاجات المهمة.',
+'بحب إننا بنشارك بعض تفاصيل يومنا.',
+'بحب إنك بتحاولي حتى لما تكون الأمور صعبة.',
+'بحب فضولك وحبك للتعلم.',
+'بحب طريقة تعبيرك عن الفرحة.',
+'بحب ذاكرتك للتفاصيل الصغيرة.',
+'بحب إنك بتسألي عليا.',
+'بحب لما تشاركيني حاجة بتحبيها.',
+'بحب احترامك للي قدامك.',
+'بحب إنك بتقدّري المجهود.',
+'بحب لحظات الضحك بينا.',
+'بحب لما نلاقي حل سوا.',
+'بحب إننا بنقدر نتكلم بصراحة.',
+'بحب إنك بتفرحي بالحاجات البسيطة.',
+'بحب إنك بتخلّي للحكايات معنى.',
+'بحب أحلامك اللي نفسك تحققيها.',
+'بحب إنك بتشجعيني أتعلم.',
+'بحب لما نحتفل بالإنجازات الصغيرة.',
+'بحب إنك بتشاركي مشاعرك.',
+'بحب تفاصيل شخصيتك.',
+'بحب إن لكل واحد فينا رأيه.',
+'بحب إننا بنحاول نفهم بعض.',
+'بحب لما نفتكر موقف يضحكنا.',
+'بحب رسائلك اللطيفة.',
+'بحب إنك بتعبّري عن امتنانك.',
+'بحب إنك بتدي للأيام العادية ذكرى.',
+'بحب إنك بتسألي عن الحاجات اللي تهمني.',
+'بحب لما نخطط لحاجة جميلة.',
+'بحب إنك بتحاولي تتطوري.',
+'بحب شجاعتك في التعبير عن رأيك.',
+'بحب لما نتكلم عن الكتب أو الأفلام.',
+'بحب مشاركة الأغاني اللي بتحبيها.',
+'بحب إنك بتفهمي قيمة الصداقة والاحترام.',
+'بحب لما نشجع بعض وقت الامتحانات.',
+'بحب إننا بنقدر نتعلم من اختلافنا.',
+'بحب حماسك لما تحكي عن حاجة بتحبيها.',
+'بحب إنك بتقدّري الكلام الصادق.',
+'بحب إننا نقدر نضحك على المواقف البسيطة.',
+'بحب لما تفتكري حاجة حكيتها ليكي.',
+'بحب إنك بتسألي لو في حاجة مضايقاني.',
+'بحب لما نتكلم بهدوء ونوصل لحل.',
+'بحب إنك بتقدّري الوقت اللي بنقضيه في الكلام.',
+'بحب إنك بتشاركي أفكارك.',
+'بحب إنك عندك حاجات مميزة بتحبيها.',
+'بحب إنك بتخليني أراجع نفسي.',
+'بحب إنك بتشجعيني أكون مسؤول.',
+'بحب إنك بتفرحي بالحاجات اللي بتنجح.',
+'بحب إنك بتحاولي تكوني أحسن.',
+'بحب اهتمامك بعيلتك.',
+'بحب إنك بتقدّري المواقف الحلوة.',
+'بحب لما نحط أهداف ونتكلم عنها.',
+'بحب إنك بتعرفي تخلّي الكلام ممتع.',
+'بحب إنك بتشاركي لحظات فرحتك.',
+'بحب إنك بتعبّري عن اللي محتاجاه.',
+'بحب إنك بتقدّري الثقة.',
+'بحب إننا نقدر نتكلم عن يوم صعب.',
+'بحب إنك بتحبي تتعلمي حاجات جديدة.',
+'بحب إنك بتشجعيني على النجاح.',
+'بحب إننا بنحاول نحافظ على الاحترام وقت الاختلاف.',
+'بحب إنك بتقدّري الاعتذار الصادق.',
+'بحب إنك بتشاركي تفاصيل صغيرة بتفرحك.',
+'بحب إننا بنقدر نحتفل بنجاحات بعض.',
+'بحب إنك بتفكريني بأهدافي.',
+'بحب إنك عندك طريقتك الخاصة في رؤية الدنيا.',
+'بحب إنك بتخلّي الذكريات العادية مميزة.',
+'بحب إنك إنسانة ليها أحلامها وشخصيتها.',
+'بحب إن في حاجات كتير لسه نقدر نتعلمها عن بعض.',
+'وببساطة، بحب وجودك وتفاصيلك يا رودي.'
+];
+const reasonList=document.getElementById('reasonList');
+reasons.forEach((reason,i)=>{
+  const row=document.createElement('div');row.className='reason';
+  const n=document.createElement('span');n.className='reasonNum';
+  n.textContent=String(i+1).padStart(3,'0');
+  const t=document.createElement('span');t.className='reasonText';t.textContent=reason;
+  const heart=document.createElement('span');heart.textContent='💗';
+  row.append(n,t,heart);reasonList.appendChild(row);
+});
+</script>
+</body>
+</html>
